@@ -5,6 +5,9 @@ import './index.css';
 
 
 class WordCloud extends React.Component{
+
+
+
     render() {
         return (
             <h1>yo</h1>
@@ -18,7 +21,8 @@ class Word extends React.Component {
         super(props);
         this.state = {
             text: "Hello world",
-            wordCount: undefined
+            wordCount: undefined,
+            listOfWords: undefined
 
         }
 
@@ -29,13 +33,36 @@ class Word extends React.Component {
 
     updateWordCount(event){
         let string = event.target.value; 
+        
+        if (string.charAt(string.length-1) == " "){
+            console.log("stoooop")
+            return; 
+        };
+
         let wordArr = string.split(" ");
-        let wordCounter = wordArr.length;
-        
-        
 
+        wordArr.map(str => str.replace(/\s/g, ''));
 
-        this.setState({wordCount: wordCounter})
+        let numWords = wordArr.length; 
+
+        let wordCounter = new Map();
+
+        for (let i = 0; i < wordArr.length; i++){
+            if (!wordCounter.has(wordArr[i])){
+                wordCounter.set(wordArr[i], 1);
+            } else {
+                let count = wordCounter.get(wordArr[i]) + 1;
+                wordCounter.delete(wordArr[i])
+                wordCounter.set(wordArr[i], count);
+            }
+        }
+
+        let wordList = [];
+        for (let [key, value] of wordCounter){
+            wordList.push(key + ": " + value + " ");
+        };
+
+        this.setState({wordCount: numWords, listOfWords: wordList})
         console.log(this.state.wordCount)
     }
 
@@ -50,7 +77,9 @@ class Word extends React.Component {
                 <div className="status">
                     <h3>Current text: {this.state.text}</h3>
                     {this.state.wordCount}
+                    
                 </div>
+                <p>{this.state.listOfWords}</p>
             </div>
         );
     }
