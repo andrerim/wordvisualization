@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-
+import CountWords from './countWords.jsx'
 
 
 class WordCloud extends React.Component{
@@ -95,8 +95,7 @@ class Main extends React.Component {
                     <Word />
                 </div>
                 <div className="game-info">
-                    <div>{/* status */}</div>
-                    <ol>{/* TODO */}</ol>
+                    <CountWords />
                 </div>
             </div>
         );
